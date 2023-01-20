@@ -3,10 +3,12 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, screen } = require('electron')
 const path = require('path')
+var mainWindow = undefined
+
 
 const createWindow = () => {
     // Create the browser window.
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: screen.getPrimaryDisplay().workAreaSize.width,
         height: screen.getPrimaryDisplay().workAreaSize.height,
         webPreferences: {
@@ -18,8 +20,39 @@ const createWindow = () => {
     mainWindow.loadFile('index.html')
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 }
+
+// Function to create child window of parent one
+/*
+function createChildWindow() {
+    childWindow = new BrowserWindow({
+        width: 1000,
+        height: 700,
+        modal: true,
+        show: false,
+        parent: mainWindow, // Make sure to add parent window here
+
+        // Make sure to add webPreferences with below configuration
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true,
+        },
+    });
+
+    // Child window loads settings.html file
+    childWindow.loadFile("settings.html");
+
+    childWindow.once("ready-to-show", () => {
+        childWindow.show();
+    });
+}
+
+ipcMain.on("openChildWindow", (event, arg) => {
+    createChildWindow();
+});
+*/
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
